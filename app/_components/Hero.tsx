@@ -1,10 +1,13 @@
 import React from "react";
 
+import StarsBackground from "./StarsBackground";
+
 function Hero() {
   return (
-    <section className="bg-black">
+    <section className="relative bg-black overflow-hidden">
+      <StarsBackground />
       <div
-        className="flex items-baseline 
+        className="relative z-10 flex items-baseline 
         justify-center pt-20"
       >
         <h2
@@ -15,7 +18,7 @@ function Hero() {
           Diagramatics | <span className="text-sky-300">AI Diagram</span>
         </h2>
       </div>
-      <div className="mx-auto h-screen max-w-screen-xl px-4 py-12 lg:flex  ">
+      <div className="relative z-10 mx-auto h-screen max-w-screen-xl px-4 py-12 lg:flex  ">
         <div className="mx-auto max-w-xl text-center">
           <h1 className="text-3xl text-sky-300 font-extrabold sm:text-5xl">
             Documents & diagrams

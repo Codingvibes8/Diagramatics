@@ -5,18 +5,23 @@
 h1.ce-header {
   @apply text-3xl font-bold;
 }
+
 h2.ce-header {
   @apply text-2xl font-semibold;
 }
+
 h3.ce-header {
   @apply text-xl font-semibold;
 }
+
 h4.ce-header {
   @apply text-lg font-semibold;
 }
+
 h5.ce-header {
   @apply text-base font-semibold;
 }
+
 h6.ce-header {
   @apply text-base font-semibold;
 }
@@ -60,19 +65,24 @@ h6.ce-header {
 
   /* Force dark mode styles by default since we are redesigning primarily for dark mode */
   .dark {
-    --background: 222 47% 11%; /* #0F172A - Slate 900 */
-    --foreground: 210 40% 98%; /* #F8FAFC - Slate 50 */
+    --background: 222 47% 11%;
+    /* #0F172A - Slate 900 */
+    --foreground: 210 40% 98%;
+    /* #F8FAFC - Slate 50 */
 
-    --card: 217 33% 17%; /* #1E293B - Slate 800 */
+    --card: 217 33% 17%;
+    /* #1E293B - Slate 800 */
     --card-foreground: 210 40% 98%;
 
     --popover: 222 47% 11%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 217 91% 60%; /* #3B82F6 - Blue 500 */
+    --primary: 217 91% 60%;
+    /* #3B82F6 - Blue 500 */
     --primary-foreground: 222 47.4% 11.2%;
 
-    --secondary: 217 33% 17%; /* Surface/Card color */
+    --secondary: 217 33% 17%;
+    /* Surface/Card color */
     --secondary-foreground: 210 40% 98%;
 
     --muted: 217 33% 17%;
@@ -94,7 +104,30 @@ h6.ce-header {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .animate-floating-star {
+    animation: moveUp linear infinite;
+  }
+}
+
+@keyframes moveUp {
+  0% {
+    transform: translateY(100vh) scale(0.5);
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: translateY(-10vh) scale(1);
+    opacity: 0;
   }
 }
