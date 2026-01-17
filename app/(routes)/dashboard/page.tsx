@@ -1,11 +1,11 @@
-"use client";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/lib/hooks/useUser";
 import { upsertUserProfile } from "@/lib/db/users";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
-import Header from "./_components/Header";
+import { DashboardHeader } from "./_components/DashboardHeader";
+import { ProjectCard } from "./_components/ProjectCard";
 
 function Dashboard() {
   const { user } = useUser();
@@ -16,7 +16,6 @@ function Dashboard() {
     const checkUser = async () => {
       if (!user) return;
   
-      // Check if user profile exists
       const { data: existingUser } = await supabase
         .from('users')
         .select('*')
@@ -24,7 +23,6 @@ function Dashboard() {
         .single();
   
       if (!existingUser) {
-        // Create user profile
         await upsertUserProfile({
           name: user.user_metadata?.name || user.email?.split('@')[0] || 'User',
           email: user.email || '',
@@ -34,24 +32,54 @@ function Dashboard() {
     };
 
     if (user) {
-      console.log(user);
       checkUser();
     }
   }, [user, supabase]);
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    router.push('/');
-    router.refresh();
-  };
+  // Mock data for display - replace with real data fetching later
+  const recentProjects = [
+    { title: "User Auth Flow", edited: "Edited 2h ago", gradient: "from-slate-700 to-slate-600", starred: true },
+    { title: "API V2 Specs", edited: "Edited 5h ago", gradient: "from-neutral-100 to-neutral-200", starred: true },
+    { title: "Postgres Schema", edited: "Edited yesterday", gradient: "from-blue-200/20 to-slate-200/20", starred: false },
+    { title: "AWS Deployment", edited: "Edited 3d ago", gradient: "from-cyan-500/80 to-blue-500/80", starred: false },
+    { title: "Landing Page v1", edited: "Edited Oct 12", gradient: "from-emerald-100 to-teal-100", starred: false },
+    { title: "Service Mesh", edited: "Edited Oct 10", gradient: "from-slate-800 to-gray-900", starred: false },
+  ];
 
   return (
-    <div className="p-8">
-      <Header />
-      <div className="mt-4">
-        <Button onClick={handleLogout} variant="outline">
-          Logout
-        </Button>
+    <div className="flex flex-col h-full bg-background text-foreground">
+      <DashboardHeader />
+      
+      <div className="flex-1 overflow-y-auto p-6 md:p-8">
+        <div className="max-w-6xl mx-auto space-y-8">
+          
+          {/* Tabs Section (Visual only for now) */}
+          <div className="flex items-center gap-6 border-b border-border pb-1">
+            <button className="pb-3 border-b-2 border-blue-500 text-blue-500 font-medium text-sm">Recent</button>
+            <button className="pb-3 border-b-2 border-transparent text-muted-foreground hover:text-white transition font-medium text-sm">Starred</button>
+            <button className="pb-3 border-b-2 border-transparent text-muted-foreground hover:text-white transition font-medium text-sm">Shared with me</button>
+          </div>
+
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-sm font-semibold tracking-wider text-muted-foreground uppercase">Recently Edited</h2>
+              <Button variant="link" className="text-blue-500 h-auto p-0 text-sm">View all</Button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {recentProjects.map((project, i) => (
+                <ProjectCard 
+                  key={i}
+                  title={project.title}
+                  editedAt={project.edited}
+                  thumbnailGradient={project.gradient}
+                  isStarred={project.starred}
+                />
+              ))}
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   );
