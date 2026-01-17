@@ -1,12 +1,13 @@
 "use client";
 export const dynamic = 'force-dynamic'
-import { Button } from "@/components/ui/button";
+
+import React, { useEffect } from "react";
 import { useUser } from "@/lib/hooks/useUser";
 import { upsertUserProfile } from "@/lib/db/users";
-import { createClient } from "@/lib/supabase/client";
-import React, { useEffect } from "react";
 import { DashboardHeader } from "./_components/DashboardHeader";
 import { ProjectCard } from "./_components/ProjectCard";
+import { Button } from "@/components/ui/button";
+import { createClient } from "@/lib/supabase/client";
 
 function Dashboard() {
   const { user } = useUser();
@@ -38,12 +39,12 @@ function Dashboard() {
 
   // Mock data for display - replace with real data fetching later
   const recentProjects = [
-    { title: "User Auth Flow", edited: "Edited 2h ago", gradient: "from-slate-700 to-slate-600", starred: true },
-    { title: "API V2 Specs", edited: "Edited 5h ago", gradient: "from-neutral-100 to-neutral-200", starred: true },
-    { title: "Postgres Schema", edited: "Edited yesterday", gradient: "from-blue-200/20 to-slate-200/20", starred: false },
-    { title: "AWS Deployment", edited: "Edited 3d ago", gradient: "from-cyan-500/80 to-blue-500/80", starred: false },
-    { title: "Landing Page v1", edited: "Edited Oct 12", gradient: "from-emerald-100 to-teal-100", starred: false },
-    { title: "Service Mesh", edited: "Edited Oct 10", gradient: "from-slate-800 to-gray-900", starred: false },
+    { title: "User Auth Flow", edited: "Edited 2h ago", gradient: "from-blue-600 to-cyan-500", starred: true },
+    { title: "API V2 Specs", edited: "Edited 5h ago", gradient: "from-emerald-500 to-teal-400", starred: true },
+    { title: "Postgres Schema", edited: "Edited yesterday", gradient: "from-orange-500 to-red-500", starred: false },
+    { title: "AWS Deployment", edited: "Edited 3d ago", gradient: "from-pink-500 to-rose-500", starred: false },
+    { title: "Landing Page v1", edited: "Edited Oct 12", gradient: "from-indigo-500 to-purple-500", starred: false },
+    { title: "Service Mesh", edited: "Edited Oct 10", gradient: "from-gray-700 to-slate-600", starred: false },
   ];
 
   return (
@@ -55,7 +56,7 @@ function Dashboard() {
           
           {/* Tabs Section (Visual only for now) */}
           <div className="flex items-center gap-6 border-b border-border pb-1">
-            <button className="pb-3 border-b-2 border-blue-500 text-blue-500 font-medium text-sm">Recent</button>
+            <button className="pb-3 border-b-2 border-primary text-primary font-medium text-sm">Recent</button>
             <button className="pb-3 border-b-2 border-transparent text-muted-foreground hover:text-white transition font-medium text-sm">Starred</button>
             <button className="pb-3 border-b-2 border-transparent text-muted-foreground hover:text-white transition font-medium text-sm">Shared with me</button>
           </div>
@@ -63,7 +64,7 @@ function Dashboard() {
           <div>
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-sm font-semibold tracking-wider text-muted-foreground uppercase">Recently Edited</h2>
-              <Button variant="link" className="text-blue-500 h-auto p-0 text-sm">View all</Button>
+              <Button variant="link" className="text-primary h-auto p-0 text-sm">View all</Button>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
