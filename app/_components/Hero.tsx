@@ -12,7 +12,7 @@ function Hero() {
             px-3 p-2 rounded-full
         text-center border-white"
         >
-          Dayo-Erasor-app | <span className="text-sky-300">AI Diagram</span>
+          Diagramatics | <span className="text-sky-300">AI Diagram</span>
         </h2>
       </div>
       <div className="mx-auto h-screen max-w-screen-xl px-4 py-12 lg:flex  ">
