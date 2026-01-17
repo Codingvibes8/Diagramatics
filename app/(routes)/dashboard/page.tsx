@@ -1,15 +1,15 @@
+"use client";
+export const dynamic = 'force-dynamic'
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/lib/hooks/useUser";
 import { upsertUserProfile } from "@/lib/db/users";
 import { createClient } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { DashboardHeader } from "./_components/DashboardHeader";
 import { ProjectCard } from "./_components/ProjectCard";
 
 function Dashboard() {
   const { user } = useUser();
-  const router = useRouter();
   const supabase = createClient();
 
   useEffect(() => {

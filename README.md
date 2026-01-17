@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Diagramatics
+
+A modern, collaborative diagramming and documentation platform built with Next.js 15, Supabase, and Tailwind CSS.
+
+## Features
+
+- **Modern UI/UX**: Dark-themed, glassmorphism-inspired interface with responsive design.
+- **Authentication**: secure user authentication via Supabase Auth (Email/Password & Google OAuth).
+- **Dashboard**: Centralized hub for managing projects and accessing recent files.
+- **Team Management**: Create and manage teams for collaboration.
+- **Project Organization**: Organize work into projects with visual card previews.
+- **Responsive Design**: Mobile-friendly bottom navigation and adaptive layouts.
+
+## Tech Stack
+
+- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **UI Components**: [shadcn/ui](https://ui.shadcn.com/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Backend/Auth**: [Supabase](https://supabase.com/)
+
+## Prerequisites
+
+- Node.js 18+ installed
+- A Supabase account and project
 
 ## Getting Started
 
-First, run the development server:
+1. **Clone the repository:**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+    ```bash
+    git clone https://github.com/yourusername/diagramatics.git
+    cd diagramatics
+    ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Install dependencies:**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+    ```bash
+    npm install
+    # or
+    yarn install
+    # or
+    pnpm install
+    ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. **Environment Setup:**
 
-## Learn More
+    Create a `.env.local` file in the root directory and add your Supabase credentials:
 
-To learn more about Next.js, take a look at the following resources:
+    ```env
+    NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. **Database Setup:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+    Run the following SQL in your Supabase SQL Editor to set up the necessary tables:
 
-## Deploy on Vercel
+    ```sql
+    -- Users Table
+    create table if not exists users (
+      id uuid references auth.users not null primary key,
+      email text unique not null,
+      name text,
+      image text,
+      created_at timestamp with time zone default timezone('utc'::text, now()) not null
+    );
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    -- Teams Table
+    create table if not exists teams (
+      id uuid default gen_random_uuid() primary key,
+      team_name text not null,
+      created_by uuid references auth.users not null,
+      created_at timestamp with time zone default timezone('utc'::text, now()) not null
+    );
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+5. **Run the development server:**
+
+    ```bash
+    npm run dev
+    ```
+
+    Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Project Structure
+
+- `app/`: Next.js App Router pages and layouts.
+  - `(routes)/dashboard`: Authenticated dashboard routes.
+  - `auth/`: Authentication pages (Login, Signup).
+  - `_components/`: Shared UI components.
+- `components/ui/`: Reusable shadcn/ui components.
+- `lib/`: Utility functions, database helpers, and Supabase client configuration.
+- `public/`: Static assets.
+
+## Deployment
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new).
+
+1. Push your code to a GitHub repository.
+2. Link the repository to Vercel.
+3. Configure the `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` environment variables in Vercel project settings.

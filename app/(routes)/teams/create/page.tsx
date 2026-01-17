@@ -1,14 +1,15 @@
 "use client";
+export const dynamic = 'force-dynamic'
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useUser } from "@/lib/hooks/useUser";
 import { createTeam } from "@/lib/db/teams";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { toast } from "sonner";
 
-function CreateTeam() {
+function CreateTeamContent() {
   const [teamName, setTeamName] = useState("");
   const [loading, setLoading] = useState(false);
   const { user } = useUser();
@@ -66,6 +67,14 @@ function CreateTeam() {
         </Button>
       </div>
     </div>
+  );
+}
+
+function CreateTeam() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CreateTeamContent />
+    </Suspense>
   );
 }
 

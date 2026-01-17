@@ -1,10 +1,13 @@
 "use client";
+export const dynamic = 'force-dynamic'
 import Hero from "./_components/Hero";
 import Header from "./_components/Header";
 import { useUser } from "@/lib/hooks/useUser";
 import { useEffect } from "react";
 
-export default function Home() {
+import { Suspense } from 'react';
+
+function HomeContent() {
   const { user } = useUser();
 
   useEffect(() => {
@@ -16,5 +19,13 @@ export default function Home() {
       <Header />
       <Hero />
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HomeContent />
+    </Suspense>
   );
 }
