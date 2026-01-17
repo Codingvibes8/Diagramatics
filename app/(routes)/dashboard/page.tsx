@@ -13,31 +13,31 @@ function Dashboard() {
   const supabase = createClient();
 
   useEffect(() => {
+    const checkUser = async () => {
+      if (!user) return;
+  
+      // Check if user profile exists
+      const { data: existingUser } = await supabase
+        .from('users')
+        .select('*')
+        .eq('email', user.email)
+        .single();
+  
+      if (!existingUser) {
+        // Create user profile
+        await upsertUserProfile({
+          name: user.user_metadata?.name || user.email?.split('@')[0] || 'User',
+          email: user.email || '',
+          image: user.user_metadata?.avatar_url || '',
+        });
+      }
+    };
+
     if (user) {
       console.log(user);
       checkUser();
     }
-  }, [user]);
-
-  const checkUser = async () => {
-    if (!user) return;
-
-    // Check if user profile exists
-    const { data: existingUser } = await supabase
-      .from('users')
-      .select('*')
-      .eq('email', user.email)
-      .single();
-
-    if (!existingUser) {
-      // Create user profile
-      await upsertUserProfile({
-        name: user.user_metadata?.name || user.email?.split('@')[0] || 'User',
-        email: user.email || '',
-        image: user.user_metadata?.avatar_url || '',
-      });
-    }
-  };
+  }, [user, supabase]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();

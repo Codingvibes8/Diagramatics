@@ -30,7 +30,7 @@ function CreateTeam() {
         router.push("/dashboard");
         toast.success("Team created successfully!!!");
       }
-    } catch (error) {
+    } catch {
       toast.error("An error occurred while creating the team");
     } finally {
       setLoading(false);

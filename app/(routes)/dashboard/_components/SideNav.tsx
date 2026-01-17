@@ -1,4 +1,4 @@
-import { Archive, ChevronDown, Flag, Github } from "lucide-react";
+// import { Archive, ChevronDown, Flag, Github } from "lucide-react";
 import { useUser } from "@/lib/hooks/useUser";
 
 function SideNav() {

@@ -1,9 +1,8 @@
 "use client";
-import { api } from "@/convex/_generated/api";
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
-import { useConvex } from "convex/react";
+import { getTeams } from "@/lib/db/teams";
+import { useUser } from "@/lib/hooks/useUser";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 //import SideNav from './_components/SideNav';
 //import { FileListContext } from '@/app/_context/FilesListContext';
 
@@ -12,25 +11,28 @@ function DashboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const convex = useConvex();
-  const { user }: any = useKindeBrowserClient();
-  //const [fileList_,setFileList_]=useState();
-
+  const { user, loading } = useUser();
   const router = useRouter();
 
   useEffect(() => {
-    user && checkTeam();
-  }, [user]);
+    const checkTeam = async () => {
+      if (!user) return;
+      
+      const { data } = await getTeams(user.id);
 
-  const checkTeam = async () => {
-    const result = await convex.query(api.teams.getTeam, {
-      email: user?.email,
-    });
+      if (!data || data.length === 0) {
+        router.push("teams/create");
+      }
+    };
 
-    if (!result?.length) {
-      router.push("teams/create");
+    if (!loading) {
+      checkTeam();
     }
-  };
+  }, [user, loading, router]);
+
+  if (loading) {
+    return <div className="h-screen flex items-center justify-center">Loading...</div>;
+  }
 
   return (
     <div>
